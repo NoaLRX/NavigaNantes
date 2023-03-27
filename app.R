@@ -93,26 +93,26 @@ get_next_transport <- function(arret) {
 #'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
 ## Chargement de la base de données----
-df <- read.csv("df.csv", sep = ";")
+df <- read.csv("data/df.csv", sep = ";")
 df1 <- select(df, 2, 15, 16)
 df1 <- df1 %>% rename(nom = 1, latitude = 2, longitude = 3)
 df1$info <- sub("^(\\w+).*", "\\1", df1$nom)
 
 ## Chargement de la BDD des musées----
-musee = read.csv2("musees.csv")
+musee = read.csv2("data/musees.csv")
 musee = select(musee, 1,2,13,14)
 musee <- musee %>% rename(nom = 1, info = 2, latitude = 3, longitude = 4)
 musee <- musee[, c(1, 3, 4, 2)]
 
 ## Chargement de la BDD des resto----
-resto = read.csv2("resto.csv")
+resto = read.csv2("data/resto.csv")
 resto = select(resto, 1,2,12,13)
 resto <- resto %>% rename(nom = 1, info = 2, latitude = 3, longitude = 4)
 resto <- resto[, c(1, 3, 4, 2)]
 resto <- resto[resto$info != "", ]
 
 ## Chargement de la BDD des parcs----
-parc = read.csv2("parcs.csv")
+parc = read.csv2("data/parcs.csv")
 parc = select(parc, 2,3,7)
 parc$latitude <- as.numeric(sub(",.*", "", parc$Géolocalisation))
 parc$longitude <- as.numeric(sub(".*, ", "", parc$Géolocalisation))
@@ -121,16 +121,16 @@ parc <- parc %>% rename(nom = 1, info = 2, latitude = 3, longitude = 4)
 parc <- parc[, c(1, 3, 4, 2)]
 
 ## Chargement de la BDD des velos----
-velos = read.csv2("velos.csv")
+velos = read.csv2("data/velos.csv")
 velos <- velos %>%
   mutate(latitude = as.numeric(stringr::str_extract(position, "\\d+\\.\\d+")),
          longitude = as.numeric(stringr::str_extract(position, "-\\d+\\.\\d+")),
-         info = "Station_vélo") %>%
+         info = "data/Station_vélo") %>%
   select(name, latitude, longitude, info)
 velos <- velos %>% rename(nom = name)
 
 ## Chargement de la BDD des arrêtes tan----
-Arrets = read.csv2("tan.csv")
+Arrets = read.csv2("data/tan.csv")
 Arrets <- Arrets %>%
   mutate(latitude = as.numeric(stringr::str_extract(Coordinates, "\\d+\\.\\d+")),
          longitude = as.numeric(stringr::str_extract(Coordinates, "-\\d+\\.\\d+")),
@@ -139,7 +139,7 @@ Arrets <- Arrets %>%
 Arrets <- Arrets %>% rename(nom = Name)
 
 ## Chargement de la BDD des toilettes----
-wc = read.csv2("wc.csv")
+wc = read.csv2("data/wc.csv")
 wc = select(wc, 3,20)
 wc$info <- rep("Toilettes", nrow(wc))
 wc$longitude <- as.numeric(sub(",.*", "", gsub(".*\\[", "", wc$Géométrie)))
