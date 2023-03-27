@@ -329,5 +329,5 @@ server <- function(input, output) {
   })
 }
 
-# Lancer l'application Shinyy
+# Lancer l'application Shiny
 shinyApp(ui, server)
