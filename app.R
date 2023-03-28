@@ -331,3 +331,8 @@ server <- function(input, output) {
 
 # Lancer l'application Shiny
 shinyApp(ui, server)
+
+
+
+
+
